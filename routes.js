@@ -33,12 +33,12 @@ Router.prototype.route = function(){
     var dirname = path.dirname(req.url) + '/';
     var routeFunction;
 
-    if(this.routes[req.method][dirname + ':id']){
-      routeFunction = this.routes[req.method][dirname +':id'];
-      routeFunction(req, res);
-
-    } else if (this.routes[req.method][req.url]){
+    if (this.routes[req.method][req.url]){
       routeFunction = this.routes[req.method][req.url];
+      routeFunction(req, res);
+      
+    } else if (this.routes[req.method][dirname + ':id']) {
+      routeFunction = this.routes[req.method][dirname +':id'];
       routeFunction(req, res);
 
     } else {
@@ -49,7 +49,7 @@ Router.prototype.route = function(){
   };
 };
 
-Router.prototype.start = function( port){
+Router.prototype.start = function(port){
   http.createServer(this.route()).listen(port, () => {
     console.log('live ' + port);
   });

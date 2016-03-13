@@ -80,7 +80,7 @@ myApp.put('/info/:id', (req, res) => {
 });
 
 
-myApp.delete('/info', (req, res) => {
+myApp.delete('/info/all', (req, res) => {
   res.writeHead(200,{'content-type':'text/html'});
   fs.readdir('./data', (err, files) =>{
     files.forEach((file) => {
