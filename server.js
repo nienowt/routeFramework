@@ -50,8 +50,15 @@ myApp.put('/info/:id', (req, res) => {
   res.writeHead(200,{'content-type':'text/html'});
   req.on('data', (data) => {
     fs.readFile('./data/'+ fileId, (err, fileData) => {
-      if(!fileData) return res.end(console.log('File does not exist'));
+      var cur = JSON.parse(fileData.toString());
+      var change = JSON.parse(data.toString());
 
+      if(!fileData) return res.end(console.log('File does not exist')); //won't just write new file
+
+      if (cur.type === change.type){ //won't write if no change
+        console.log('File Not Changed')
+        return res.end();
+      }
       var info = data.toString();
 
       fs.writeFile('./data/' + fileId, info, () => {
@@ -61,9 +68,9 @@ myApp.put('/info/:id', (req, res) => {
       })
     })
   });
-  
 
-myApp.delete('/info', (req, res) => {
+
+myApp.delete('/info/', (req, res) => {
   res.writeHead(200,{'content-type':'text/html'});
   fs.readdir('./data', (err, files) =>{
     files.forEach((file) => {
