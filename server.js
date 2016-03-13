@@ -2,6 +2,7 @@ var Route = require('./routes.js');
 var myApp = new Route();
 var fs = require('fs')
 
+
 myApp.get('/info', (req, res)  => {
   console.log('/info get route hit');
   res.writeHead(200, {'content-type':'text/html'});
@@ -20,6 +21,7 @@ myApp.get('/info', (req, res)  => {
     });
   });
 })
+
 
 myApp.post('/info', (req, res) => {
   console.log('/info post route hit');
@@ -40,11 +42,26 @@ myApp.post('/info', (req, res) => {
   });
 });
 
+
 myApp.put('/info/:id', (req, res) => {
   console.log('put hit');
+  var fileId = req.url.split('/')[2] + '.json';
+
   res.writeHead(200,{'content-type':'text/html'});
-  res.end();
-})
+  req.on('data', (data) => {
+    fs.readFile('./data/'+ fileId, (err, fileData) => {
+      if(!fileData) return res.end(console.log('File does not exist'));
+
+      var info = data.toString();
+
+      fs.writeFile('./data/' + fileId, info, () => {
+        console.log('File Changed')
+      })
+      return res.end();
+      })
+    })
+  });
+  
 
 myApp.delete('/info', (req, res) => {
   res.writeHead(200,{'content-type':'text/html'});
@@ -62,6 +79,7 @@ myApp.delete('/info', (req, res) => {
   })
 })
 
+
 myApp.delete('/info/:id', (req, res) => {
   var fileId = req.url.split('/')[2];
   res.writeHead(200,{'content-type':'text/html'});
@@ -78,8 +96,5 @@ myApp.delete('/info/:id', (req, res) => {
     })
   })
 })
-
-
-
 
 myApp.start(myApp.route(), 3000);
