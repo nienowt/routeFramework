@@ -1,6 +1,8 @@
 'use strict';
+
 var http = require('http');
 var path = require('path');
+
 var Router = module.exports = function(){
   this.routes = {
     'GET': {},
@@ -35,9 +37,11 @@ Router.prototype.route = function(){
       console.log('got this far')
       var routeFunction = this.routes[req.method][dirname +':id'];
       routeFunction(req, res);
+
     } else if (this.routes[req.method][req.url]){
       var routeFunction = this.routes[req.method][req.url];
       routeFunction(req, res);
+
     } else {
       console.log('404')
       res.write('404 mf')
@@ -49,5 +53,5 @@ Router.prototype.route = function(){
 Router.prototype.start = function(newRouter, port){
   http.createServer(newRouter).listen(port, () => {
     console.log('live ' + port)
-  })
-}
+  });
+};
