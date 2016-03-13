@@ -31,7 +31,17 @@ myApp.post('/info', (req, res) => {
 
     fs.mkdir(__dirname + '/data', () => {
       fs.readdir('./data',(err, files) => {
-        fs.writeFile('./data/' + files.length + '.json', info, () =>{
+
+        var fileId = function(){
+          var count = files.length;
+          files.forEach((file)=>{
+            if (file === files.length + '.json'){
+              count++;
+            }
+          })
+          return count;
+        }
+        fs.writeFile('./data/' + fileId() + '.json', info, () =>{
           console.log('File saved');
         });
       });
@@ -70,7 +80,7 @@ myApp.put('/info/:id', (req, res) => {
   });
 
 
-myApp.delete('/info/', (req, res) => {
+myApp.delete('/info', (req, res) => {
   res.writeHead(200,{'content-type':'text/html'});
   fs.readdir('./data', (err, files) =>{
     files.forEach((file) => {
@@ -104,4 +114,4 @@ myApp.delete('/info/:id', (req, res) => {
   })
 })
 
-myApp.start(myApp.route(), 3000);
+myApp.start(3000);

@@ -33,7 +33,6 @@ Router.prototype.route = function(){
     var dirname = path.dirname(req.url) + '/';
 
     if(this.routes[req.method][dirname + ':id']){
-      console.log('got this far')
       var routeFunction = this.routes[req.method][dirname +':id'];
       routeFunction(req, res);
 
@@ -43,14 +42,14 @@ Router.prototype.route = function(){
 
     } else {
       console.log('404')
-      res.write('404 mf')
+      res.write('404')
       res.end();
     }
   };
 };
 
-Router.prototype.start = function(newRouter, port){
-  http.createServer(newRouter).listen(port, () => {
+Router.prototype.start = function( port){
+  http.createServer(this.route()).listen(port, () => {
     console.log('live ' + port)
   });
 };
