@@ -2,6 +2,14 @@ var Route = require('./routes.js');
 var myApp = new Route();
 var fs = require('fs')
 
+myApp.get('/info/:id',(req,res) =>{
+  console.log('did it work?')
+  console.log('this this this' +req.url)
+  res.writeHead(200, {'content-type':'text/html'});
+  return res.end()
+})
+
+
 myApp.get('/info', (req, res)  => {
   console.log('/info get route hit');
   res.writeHead(200, {'content-type':'text/html'});
@@ -40,10 +48,9 @@ myApp.post('/info', (req, res) => {
   });
 });
 
-myApp.put('/info', (req, res) => {
+myApp.put('/info/', (req, res) => {
   console.log('put hit');
   res.writeHead(200,{'content-type':'text/html'});
-  req.on('data')
   res.end();
 })
 
@@ -63,6 +70,21 @@ myApp.delete('/info', (req, res) => {
   })
 })
 
+myApp.delete('/info/:id', (req, res) => {
+  res.writeHead(200,{'content-type':'text/html'});
+  fs.readdir('./data', (err, files) =>{
+    files.forEach((file) => {
+      fs.unlink('./data/' + file, (err) =>{
+        if (err) {
+          return res.end();
+        } else {
+        console.log('del hit');
+        return res.end();
+        }
+      })
+    })
+  })
+})
 
 
 

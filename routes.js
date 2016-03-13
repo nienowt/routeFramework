@@ -1,6 +1,6 @@
 'use strict';
 var http = require('http');
-
+var urlink = require('url');
 var Router = module.exports = function(){
   this.routes = {
     'GET': {},
@@ -12,7 +12,7 @@ var Router = module.exports = function(){
 
 Router.prototype.get = function(route, cb){
   this.routes.GET[route] = cb;
-  console.log('routerside ', this.routes.GET[route])
+  // console.log('routerside ', this.routes.GET[route])
   console.log('route '+route);
 };
 
@@ -28,9 +28,14 @@ Router.prototype.delete = function(route, cb){
   this.routes.DELETE[route] = cb;
 };
 
-Router.prototype.route = function(responseHeaderType,response){  ///maybe add another option that wouldnt hard code 404 handling?
+Router.prototype.route = function(){  ///maybe add another option that wouldnt hard code 404 handling?
   return (req, res) => {
-    if(this.routes[req.method][req.url]){
+    var urlId = req.url.split('/')
+    if(urlId[2]){
+      console.log('got this far')
+      var routeFunction = this.routes[req.method]['/'+urlId[1]+'/'+':id'];
+      routeFunction(req, res);
+    } else if (this.routes[req.method][req.url]){
       var routeFunction = this.routes[req.method][req.url];
       routeFunction(req, res);
     } else {
