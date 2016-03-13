@@ -30,7 +30,6 @@ Router.prototype.delete = function(route, cb){
 
 Router.prototype.route = function(){
   return (req, res) => {
-    var base = path.basename(req.url);
     var dirname = path.dirname(req.url) + '/';
 
     if(this.routes[req.method][dirname + ':id']){
