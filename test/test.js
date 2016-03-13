@@ -10,13 +10,15 @@ require(__dirname + '/../server.js');
 
 
 
-describe('http server', () => {
-  // before((done) => {
-  //   request('localhost:3000')
-  //   .del('/info/1')
-  //   .end(done());
-  // })
 
+
+describe('http server', () => {
+  before((done) =>{
+    request('localhost:3000')
+    .post('/info')
+    .send('{"type":"Great"}')
+    .end(done());
+  })
   it('should respond to /info post by storing body in json file', (done) => {
     request('localhost:3000')
     .post('/info')
@@ -32,7 +34,8 @@ describe('http server', () => {
       });
     });
   });
-
+});
+describe('get', () => {
   it('should respond to /info get requests with the contents of the stored files', (done) => {
     request('localhost:3000')
     .get('/info')
@@ -56,21 +59,9 @@ describe('http server', () => {
       });
     });
   });
+})
 
-  it('should respond to /info/:id delete requests by deleting the specified file', (done) =>{
-    request('localhost:3000')
-    .del('/info/2')
-    .end((err, res) => {
-      fs.readdir('./data', (err, files) =>{
-        console.log(files)
-        expect(res).to.have.status(200);
-        expect(res).to.have.header('content-type','text/html');
-        expect(files.indexOf('2.json')).to.eql(-1);
-        done();
-      });
-    });
-  });
-
+describe('put' , () => {
   it('should respond to /info/:id put requests by changing the specified file contents',(done) =>{
     request('localhost:3000')
     .put('/info/1')
@@ -87,3 +78,39 @@ describe('http server', () => {
     });
   });
 });
+
+describe('delete', () => {
+  before((done) =>{
+    request('localhost:3000')
+    .post('/info')
+    .send('{"type":"Great"}')
+    .end(done());
+  })
+
+  it('should respond to /info/:id delete requests by deleting the specified file', (done) =>{
+    fs.readdir('./data', (err, files) =>{
+      console.log(files)
+    })
+    request('localhost:3000')
+    .del('/info/1')
+    .end((err, res) => {
+      fs.readdir('./data', (err, files) =>{
+        console.log(files)
+        expect(res).to.have.status(200);
+        expect(res).to.have.header('content-type','text/html');
+        expect(files.indexOf('1.json')).to.eql(-1);
+        done();
+      });
+    });
+  });
+});
+
+after((done) =>{
+  fs.readdir('./data', (err, files) =>{
+    files.forEach((file) => {
+      fs.unlink('./data/' + file, (err) =>{
+          done()
+        })
+      })
+    })
+  })
