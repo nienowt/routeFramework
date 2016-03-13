@@ -1,12 +1,12 @@
 var Route = require('./routes.js');
 var myApp = new Route();
-var fs = require('fs')
+var fs = require('fs');
 
 
 myApp.get('/info', (req, res)  => {
   console.log('/info get route hit');
   res.writeHead(200, {'content-type':'text/html'});
-    fs.readdir('./data', (err, files) => {
+  fs.readdir('./data', (err, files) => {
     var count = 0;
     var infoList = '';
     files.forEach((file) => {
@@ -20,7 +20,7 @@ myApp.get('/info', (req, res)  => {
       });
     });
   });
-})
+});
 
 
 myApp.post('/info', (req, res) => {
@@ -38,9 +38,9 @@ myApp.post('/info', (req, res) => {
             if (file === files.length + '.json'){
               count++;
             }
-          })
+          });
           return count;
-        }
+        };
         fs.writeFile('./data/' + fileId() + '.json', info, () =>{
           console.log('File saved');
         });
@@ -66,18 +66,18 @@ myApp.put('/info/:id', (req, res) => {
       if(!fileData) return res.end(console.log('File does not exist')); //won't just write new file
 
       if (cur.type === change.type){ //won't write if no change
-        console.log('File Not Changed')
+        console.log('File Not Changed');
         return res.end();
       }
       var info = data.toString();
 
       fs.writeFile('./data/' + fileId, info, () => {
-        console.log('File Changed')
-      })
+        console.log('File Changed');
+      });
       return res.end();
-      })
-    })
+    });
   });
+});
 
 
 myApp.delete('/info', (req, res) => {
@@ -88,30 +88,26 @@ myApp.delete('/info', (req, res) => {
         if (err) {
           return res.end();
         } else {
-        console.log('del hit');
-        return res.end();
+          console.log('del hit');
+          return res.end();
         }
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});
 
 
 myApp.delete('/info/:id', (req, res) => {
   var fileId = req.url.split('/')[2];
   res.writeHead(200,{'content-type':'text/html'});
-  fs.readdir('./data', (err, files) =>{
-    files.forEach((file) => {
-      fs.unlink('./data/' + fileId + '.json', (err) =>{
-        if (err) {
-          return res.end();
-        } else {
-        console.log('del hit');
-        return res.end();
-        }
-      })
-    })
-  })
-})
+  fs.unlink('./data/' + fileId + '.json', (err) =>{  ////dont think i need the for each? or readdir?
+    if (err) {
+      return res.end();
+    } else {
+      console.log('del hit');
+      return res.end();
+    }
+  });
+});
 
 myApp.start(3000);

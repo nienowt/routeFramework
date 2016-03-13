@@ -31,18 +31,19 @@ Router.prototype.delete = function(route, cb){
 Router.prototype.route = function(){
   return (req, res) => {
     var dirname = path.dirname(req.url) + '/';
+    var routeFunction;
 
     if(this.routes[req.method][dirname + ':id']){
-      var routeFunction = this.routes[req.method][dirname +':id'];
+      routeFunction = this.routes[req.method][dirname +':id'];
       routeFunction(req, res);
 
     } else if (this.routes[req.method][req.url]){
-      var routeFunction = this.routes[req.method][req.url];
+      routeFunction = this.routes[req.method][req.url];
       routeFunction(req, res);
 
     } else {
-      console.log('404')
-      res.write('404')
+      console.log('404');
+      res.write('404');
       res.end();
     }
   };
@@ -50,6 +51,6 @@ Router.prototype.route = function(){
 
 Router.prototype.start = function( port){
   http.createServer(this.route()).listen(port, () => {
-    console.log('live ' + port)
+    console.log('live ' + port);
   });
 };
