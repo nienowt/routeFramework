@@ -55,7 +55,11 @@ Set up routes for REST methods:
 
     router.basicPost('/yourRoute', 'directoryName', 'ContentType')
 
-Store data sent to /yourRoute in a directory named directoryName created in your projects root directory.
+Post example:
+
+    superagent localhost:3000/yourRoute post '{"so":"great"}'
+
+Store json data sent to /yourRoute in a directory named directoryName created in your projects root directory.
 
     router.basicPut('/yourRoute', 'directoryName', 'ContentType')
 
