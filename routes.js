@@ -57,7 +57,7 @@ Router.prototype.start = function(port){
   });
 };
 
-/// really basic data storage 
+///-------really basic data storage-------///
 
 Router.prototype.basicPost = function(route, dirName, contentType){
   this.post(route, (req, res) => {
@@ -102,7 +102,7 @@ Router.prototype.basicPut = function(route, dirName, contentType){
         var change = JSON.parse(data.toString());
         var info = data.toString();
 
-        if (cur.type === change.type){ //won't write if no change
+        if (cur === change){ //won't overwrite if no change
           console.log('File Not Changed');
           return res.end();
         }

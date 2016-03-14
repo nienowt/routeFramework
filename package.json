@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Simple router",
   "main": "routes.js",
-  "directories": {
-    "test": "test"
-  },
+  "directories": {},
   "dependencies": {},
   "devDependencies": {
     "chai": "^3.5.0",
@@ -14,10 +12,7 @@
     "gulp-eslint": "^2.0.0",
     "gulp-mocha": "^2.2.0"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nienowt/routeFramework.git"

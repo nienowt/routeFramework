@@ -88,14 +88,10 @@ describe('delete route', () => {
     .end(done());
   });
   it('should respond to /info/:id delete requests by deleting the specified file', (done) =>{
-    fs.readdir('./data', (err, files) =>{
-      console.log(files);
-    });
     request('localhost:3000')
     .del('/info/1')
     .end((err, res) => {
       fs.readdir('./data', (err, files) =>{
-        console.log(files);
         expect(res).to.have.status(200);
         expect(res).to.have.header('content-type','text/html');
         expect(files.indexOf('1.json')).to.eql(-1);
