@@ -57,6 +57,8 @@ Router.prototype.start = function(port){
   });
 };
 
+/// really basic data storage 
+
 Router.prototype.basicPost = function(route, dirName, contentType){
   this.post(route, (req, res) => {
     console.log(route + ' post route hit');

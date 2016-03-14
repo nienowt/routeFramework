@@ -2,6 +2,10 @@ var Route = require('./routes.js');
 var myApp = new Route();
 var fs = require('fs');
 
+myApp.basicPost('/info', 'data', 'text/html');
+myApp.basicPut('/info', 'data', 'text/html');
+myApp.basicIdDel('/info','data');
+myApp.start(3000);
 
 myApp.get('/info', (req, res)  => {
   console.log('/info get route hit');
@@ -23,6 +27,21 @@ myApp.get('/info', (req, res)  => {
   });
 });
 
+myApp.delete('/info/all', (req, res) => {
+  res.writeHead(200,{'content-type':'text/html'});
+  fs.readdir('./data', (err, files) =>{
+    files.forEach((file) => {
+      fs.unlink('./data/' + file, (err) =>{
+        if (err) {
+          return res.end();
+        } else {
+          console.log('del hit');
+          return res.end();
+        }
+      });
+    });
+  });
+});
 
 // myApp.post('/info', (req, res) => {
 //   console.log('/info post route hit');
@@ -51,10 +70,6 @@ myApp.get('/info', (req, res)  => {
 //     });
 //   });
 // });
-myApp.basicPost('/info', 'data', 'text/html');
-myApp.basicPut('/info', 'data', 'text/html');
-myApp.basicIdDel('/info','data');
-myApp.start(3000);
 // myApp.put('/info/:id', (req, res) => {
 //   console.log('put hit');
 //   var fileId = req.url.split('/')[2] + '.json';
@@ -82,21 +97,6 @@ myApp.start(3000);
 // });
 
 
-myApp.delete('/info/all', (req, res) => {
-  res.writeHead(200,{'content-type':'text/html'});
-  fs.readdir('./data', (err, files) =>{
-    files.forEach((file) => {
-      fs.unlink('./data/' + file, (err) =>{
-        if (err) {
-          return res.end();
-        } else {
-          console.log('del hit');
-          return res.end();
-        }
-      });
-    });
-  });
-});
 
 
 // myApp.delete('/info/:id', (req, res) => {
