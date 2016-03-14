@@ -1,0 +1,26 @@
+{
+  "name": "vs-route",
+  "version": "1.0.0",
+  "description": "Simple router",
+  "main": "routes.js",
+  "directories": {},
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nienowt/routeFramework.git"
+  },
+  "author": "Nienowt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nienowt/routeFramework/issues"
+  },
+  "homepage": "https://github.com/nienowt/routeFramework#readme"
+}
